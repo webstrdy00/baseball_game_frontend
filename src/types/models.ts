@@ -64,6 +64,7 @@ export interface User {
     attempts_left: number;
     status: string;
     history: GuessHistory[];
+    answer?: string;
   }
   
   export interface ForfeitResponse {
