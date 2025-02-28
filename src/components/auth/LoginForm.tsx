@@ -7,7 +7,7 @@ import ErrorMessage from '../common/ErrorMessage';
 
 const LoginForm: React.FC = () => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    username: '',
+    email: '',
     password: '',
   });
   const [formError, setFormError] = useState<string | null>(null);
@@ -32,8 +32,8 @@ const LoginForm: React.FC = () => {
     setFormError(null);
     
     // 폼 유효성 검사
-    if (!credentials.username.trim() || !credentials.password) {
-      setFormError('사용자명과 비밀번호를 모두 입력해주세요.');
+    if (!credentials.email.trim() || !credentials.password) {
+      setFormError('이메일과 비밀번호를 모두 입력해주세요.');
       return;
     }
     
@@ -56,15 +56,15 @@ const LoginForm: React.FC = () => {
       
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700 mb-2">사용자명</label>
+          <label htmlFor="email" className="block text-gray-700 mb-2">이메일</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={credentials.username}
+            id="email"
+            name="email"
+            value={credentials.email}
             onChange={handleChange}
             disabled={loading}
-            placeholder="사용자명을 입력하세요"
+            placeholder="이메일을 입력하세요"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />

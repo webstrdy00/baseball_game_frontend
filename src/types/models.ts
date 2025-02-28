@@ -14,7 +14,7 @@ export interface UserCreate {
 }
 
 export interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -60,6 +60,7 @@ export interface GuessHistory {
 
 export interface GameStatusResponse {
   game_id: number;
+  digits: number;
   attempts_used: number;
   attempts_left: number;
   status: string;

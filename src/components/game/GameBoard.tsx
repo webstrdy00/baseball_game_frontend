@@ -110,7 +110,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameId }) => {
 
       <GuessForm
         gameId={gameId}
-        digits={gameStatus.history[0]?.guess.length || 3}
+        digits={gameStatus.digits || 3}
         disabled={gameStatus.status !== "ongoing"}
       />
 
