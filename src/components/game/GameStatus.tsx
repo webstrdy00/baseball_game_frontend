@@ -54,7 +54,7 @@ const GameStatus: React.FC<GameStatusProps> = ({ gameStatus, onForfeit, onNewGam
           {!isGameOver && (
             <button
               onClick={onForfeit}
-              className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 transform hover:scale-105"
             >
               게임 포기
             </button>
@@ -63,7 +63,7 @@ const GameStatus: React.FC<GameStatusProps> = ({ gameStatus, onForfeit, onNewGam
           {isGameOver && (
             <button
               onClick={onNewGame}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-all duration-200 transform hover:scale-105"
             >
               새 게임
             </button>
@@ -71,7 +71,7 @@ const GameStatus: React.FC<GameStatusProps> = ({ gameStatus, onForfeit, onNewGam
           
           <Link
             to="/profile"
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+            className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all duration-200 transform hover:scale-105"
           >
             게임 기록
           </Link>

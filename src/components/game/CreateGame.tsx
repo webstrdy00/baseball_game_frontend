@@ -49,7 +49,7 @@ const CreateGame: React.FC = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 disabled:bg-blue-300"
+          className="w-full bg-primary-600 text-white py-3 px-6 rounded-lg hover:bg-primary-700 transition-all duration-200 font-bold text-lg shadow-lg"
         >
           {loading ? <LoadingSpinner size="small" message="" /> : '게임 시작'}
         </button>
