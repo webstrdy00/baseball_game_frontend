@@ -1,21 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainLayout from "./components/layout/MainLayout";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import GamePage from "./pages/GamePage";
-import ProfilePage from "./pages/ProfilePage";
-import PrivateRoute from "./components/common/PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
-import { GameProvider } from "./context/GameContext";
-
-const NotFoundPage = () => (
-  <MainLayout>
-    <div className="container">
-      <h1>404 - 페이지를 찾을 수 없습니다</h1>
-    </div>
-  </MainLayout>
-);
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainLayout from './components/layout/MainLayout';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import GamePage from './pages/GamePage';
+import ProfilePage from './pages/ProfilePage';
+import NotFoundPage from './pages/NotFoundPage';
+import PrivateRoute from './components/common/PrivateRoute';
+import { AuthProvider } from './context/AuthContext';
+import { GameProvider } from './context/GameContext';
 
 function App() {
   return (
@@ -23,49 +16,20 @@ function App() {
       <GameProvider>
         <Router>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <MainLayout>
-                  <HomePage />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <MainLayout>
-                  <LoginPage />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/signup"
-              element={
-                <MainLayout>
-                  <SignupPage />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/game/:gameId?"
-              element={
-                <MainLayout>
-                  <GamePage />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/profile"
+            <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+            <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
+            <Route path="/signup" element={<MainLayout><SignupPage /></MainLayout>} />
+            <Route path="/game" element={<MainLayout><GamePage /></MainLayout>} />
+            <Route path="/game/:gameId" element={<MainLayout><GamePage /></MainLayout>} />
+            <Route 
+              path="/profile" 
               element={
                 <PrivateRoute>
-                  <MainLayout>
-                    <ProfilePage />
-                  </MainLayout>
+                  <MainLayout><ProfilePage /></MainLayout>
                 </PrivateRoute>
-              }
+              } 
             />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
           </Routes>
         </Router>
       </GameProvider>
@@ -73,4 +37,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 

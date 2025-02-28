@@ -1,4 +1,7 @@
 npm install axios
 npm install react-router-dom
+npm install canvas-confetti
+npm install @types/canvas-confetti -D
+npm install -D tailwindcss postcss autoprefixer
 
 npm run dev
