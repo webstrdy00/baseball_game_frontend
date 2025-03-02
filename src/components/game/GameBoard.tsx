@@ -96,7 +96,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameId }) => {
   return (
     <div className="game-board-container">
       <h2 className="text-2xl font-bold mb-4">
-        게임 #{gameId}
+        숫자야구게임
         <span className="ml-2 text-sm font-normal text-gray-500">
           {gameStatus.status === "ongoing" ? "(진행 중)" : "(종료됨)"}
         </span>
