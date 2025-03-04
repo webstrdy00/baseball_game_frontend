@@ -8,10 +8,9 @@ const HomePage: React.FC = () => {
   return (
     <div className="py-12">
       <div className="text-center mb-12 animate-slide-up">
-        <h1 className="text-4xl font-bold mb-3">⚾ 숫자 야구 게임</h1>
+        <h1 className="text-4xl font-bold mb-3">🎮 게임센터</h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          랜덤으로 생성된 숫자를 맞추는 추리 게임입니다. 
-          스트라이크와 볼 힌트를 이용해 정답을 찾아보세요!
+          다양한 미니게임을 즐겨보세요! 숫자야구, 테트리스 등 재미있는 게임이 여러분을 기다립니다.
         </p>
       </div>
 
@@ -20,9 +19,9 @@ const HomePage: React.FC = () => {
           <div>
             <p className="mb-6 text-lg">
               안녕하세요, <span className="font-bold text-primary-600">{user?.username}</span>님!
-              새 게임을 시작하거나 기존 게임 기록을 확인해보세요.
+              게임을 선택하거나 기존 게임 기록을 확인해보세요.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Link 
                 to="/game" 
                 className="flex items-center justify-center bg-primary-600 text-white py-3 px-4 rounded-lg hover:bg-primary-700 hover:text-white transition"
@@ -30,7 +29,16 @@ const HomePage: React.FC = () => {
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-                새 게임 시작하기
+                숫자야구
+              </Link>
+              <Link 
+                to="/tetris" 
+                className="flex items-center justify-center bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 hover:text-white transition"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                테트리스
               </Link>
               <Link 
                 to="/profile" 
@@ -39,7 +47,7 @@ const HomePage: React.FC = () => {
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                내 게임 기록 보기
+                게임 기록
               </Link>
             </div>
           </div>
@@ -69,69 +77,60 @@ const HomePage: React.FC = () => {
                 회원가입
               </Link>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               <Link 
                 to="/game" 
-                className="flex items-center justify-center bg-gray-200 text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-300 hover:text-gray-800 transition w-full"
+                className="flex items-center justify-center bg-gray-200 text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-300 hover:text-gray-800 transition"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                게스트로 플레이
+                숫자야구 게스트 플레이
+              </Link>
+              <Link 
+                to="/tetris" 
+                className="flex items-center justify-center bg-gray-200 text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-300 hover:text-gray-800 transition"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                테트리스 게스트 플레이
               </Link>
             </div>
           </div>
         )}
       </div>
 
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-center">게임 방법</h2>
-        <div className="bg-white rounded-lg shadow-md p-6 animate-fade-in">
-          <ol className="list-decimal list-inside space-y-4">
-            <li className="pl-2">
-              <span className="font-semibold">게임 시작:</span> 컴퓨터가 중복되지 않는 3~5자리 숫자를 무작위로 생성합니다.
-            </li>
-            <li className="pl-2">
-              <span className="font-semibold">숫자 추측:</span> 10번의 기회 동안 정답을 맞춰야 합니다. 각 시도마다 정답과 일치하는 정도에 따라 힌트를 얻습니다.
-            </li>
-            <li className="pl-2">
-              <span className="font-semibold">힌트 이해:</span>
-              <ul className="list-disc list-inside pl-6 mt-2 space-y-1">
-                <li><span className="font-bold text-blue-600">스트라이크(S)</span>: 숫자와 위치가 모두 일치</li>
-                <li><span className="font-bold text-green-600">볼(B)</span>: 숫자는 있지만 위치가 다름</li>
-                <li><span className="font-bold text-red-600">아웃</span>: 해당하는 숫자가 없음</li>
-              </ul>
-            </li>
-            <li className="pl-2">
-              <span className="font-semibold">게임 승리:</span> 정답을 맞추면 승리! 시도 횟수가 기록됩니다.
-            </li>
-            <li className="pl-2">
-            <span className="font-semibold">게임 종료:</span> 10번의 기회를 모두 사용하거나 정답을 맞추면 게임이 종료됩니다.
-            </li>
-          </ol>
-          
-          <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-            <h3 className="text-lg font-semibold text-yellow-800 mb-2">예시</h3>
-            <p className="mb-3">정답이 <span className="font-mono font-bold">123</span>이라면:</p>
-            <ul className="space-y-2">
-              <li className="flex items-start">
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded mr-3 w-12 text-center">456</span>
-                <span>0 스트라이크, 0 볼 (아웃: 모든 숫자가 없음)</span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded mr-3 w-12 text-center">735</span>
-                <span>0 스트라이크, 1 볼 (3이 있지만 위치가 다름)</span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded mr-3 w-12 text-center">321</span>
-                <span>1 스트라이크, 2 볼 (1의 위치만 같고, 2와 3은 있지만 위치가 다름)</span>
-              </li>
-              <li className="flex items-start">
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded mr-3 w-12 text-center">123</span>
-                <span>3 스트라이크, 0 볼 (정답!)</span>
-              </li>
-            </ul>
+      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-4 text-center">⚾ 숫자 야구 게임</h2>
+          <div className="bg-white rounded-lg shadow-md p-6 animate-fade-in">
+            <p className="mb-4">컴퓨터가 생성한 숫자를 맞추는 추리 게임입니다. 스트라이크와 볼 힌트를 활용해 정답을 찾아보세요!</p>
+            <div className="flex justify-center">
+              <Link 
+                to="/game" 
+                className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
+              >
+                숫자야구 시작하기
+              </Link>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h2 className="text-2xl font-bold mb-4 text-center">🧱 테트리스 게임</h2>
+          <div className="bg-white rounded-lg shadow-md p-6 animate-fade-in">
+            <p className="mb-4">떨어지는 블록을 조작하여 라인을 맞추고 점수를 얻는 클래식 게임입니다. 얼마나 높은 점수를 기록할 수 있을까요?</p>
+            <div className="flex justify-center">
+              <Link 
+                to="/tetris" 
+                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+              >
+                테트리스 시작하기
+              </Link>
+            </div>
           </div>
         </div>
       </div>

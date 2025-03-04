@@ -1,0 +1,43 @@
+.tetrisGameContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .gameTitle {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .gameStatus {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #666;
+    margin-left: 10px;
+  }
+  
+  .gameContent {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .sideInfo {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (max-width: 768px) {
+    .gameContent {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .sideInfo {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 20px;
+    }
+  }
