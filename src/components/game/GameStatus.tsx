@@ -50,11 +50,11 @@ const GameStatus: React.FC<GameStatusProps> = ({ gameStatus, onForfeit, onNewGam
         <h3 className="text-lg font-bold mb-1">{statusDisplay.title}</h3>
         <p>{statusDisplay.message}</p>
         
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex gap-4">
           {!isGameOver && (
             <button
               onClick={onForfeit}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 transform hover:scale-105"
+              className="px-3 py-2 bg-red-500 text-white font-semibold text-sm rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
             >
               게임 포기
             </button>
@@ -63,7 +63,7 @@ const GameStatus: React.FC<GameStatusProps> = ({ gameStatus, onForfeit, onNewGam
           {isGameOver && (
             <button
               onClick={onNewGame}
-              className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-all duration-200 transform hover:scale-105"
+              className="px-3 py-2 bg-primary-600 text-white font-semibold text-sm rounded-lg hover:bg-primary-700 hover:text-white transition-all duration-200"
             >
               새 게임
             </button>
@@ -71,7 +71,7 @@ const GameStatus: React.FC<GameStatusProps> = ({ gameStatus, onForfeit, onNewGam
           
           <Link
             to="/profile"
-            className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all duration-200 transform hover:scale-105"
+            className="px-3 py-2 bg-green-600 text-white font-semibold text-sm rounded-lg hover:bg-green-700 hover:text-white transition-all duration-200 inline-flex items-center justify-center"
           >
             게임 기록
           </Link>
