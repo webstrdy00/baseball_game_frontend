@@ -126,7 +126,7 @@ const HomePage: React.FC = () => {
             <div className="flex justify-center">
               <Link 
                 to="/tetris" 
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
               >
                 테트리스 시작하기
               </Link>
