@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 배경 -->
+  <rect width="100" height="100" rx="10" fill="#111" />
+  
+  <!-- 테트리스 블록들 -->
+  <!-- I 블록 (청록색) -->
+  <rect x="10" y="10" width="15" height="15" fill="#00f0f0" />
+  <rect x="25" y="10" width="15" height="15" fill="#00f0f0" />
+  <rect x="40" y="10" width="15" height="15" fill="#00f0f0" />
+  <rect x="55" y="10" width="15" height="15" fill="#00f0f0" />
+  
+  <!-- J 블록 (파란색) -->
+  <rect x="10" y="30" width="15" height="15" fill="#0000f0" />
+  <rect x="10" y="45" width="15" height="15" fill="#0000f0" />
+  <rect x="25" y="45" width="15" height="15" fill="#0000f0" />
+  <rect x="40" y="45" width="15" height="15" fill="#0000f0" />
+  
+  <!-- T 블록 (보라색) -->
+  <rect x="55" y="30" width="15" height="15" fill="#a000f0" />
+  <rect x="70" y="30" width="15" height="15" fill="#a000f0" />
+  <rect x="85" y="30" width="15" height="15" fill="#a000f0" />
+  <rect x="70" y="45" width="15" height="15" fill="#a000f0" />
+  
+  <!-- O 블록 (노란색) -->
+  <rect x="55" y="65" width="15" height="15" fill="#f0f000" />
+  <rect x="70" y="65" width="15" height="15" fill="#f0f000" />
+  <rect x="55" y="80" width="15" height="15" fill="#f0f000" />
+  <rect x="70" y="80" width="15" height="15" fill="#f0f000" />
+  
+  <!-- Z 블록 (빨간색) -->
+  <rect x="10" y="65" width="15" height="15" fill="#f00000" />
+  <rect x="25" y="65" width="15" height="15" fill="#f00000" />
+  <rect x="25" y="80" width="15" height="15" fill="#f00000" />
+  <rect x="40" y="80" width="15" height="15" fill="#f00000" />
+</svg>

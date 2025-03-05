@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <span className="text-2xl font-bold text-primary-600">⚾</span>
-              <span className="text-xl font-bold text-gray-800">숫자야구</span>
+              <span className="text-xl font-bold text-gray-800">게임센터</span>
             </Link>
           </div>
 
@@ -43,7 +43,13 @@ const Navbar: React.FC = () => {
                   to="/game"
                   className="px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-sm font-medium"
                 >
-                  새 게임
+                  숫자야구
+                </Link>
+                <Link
+                  to="/tetris"
+                  className="px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-sm font-medium"
+                >
+                  테트리스
                 </Link>
                 <Link
                   to="/profile"
@@ -127,7 +133,14 @@ const Navbar: React.FC = () => {
                   className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  새 게임
+                  숫자야구
+                </Link>
+                <Link
+                  to="/tetris"
+                  className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  테트리스
                 </Link>
                 <Link
                   to="/profile"

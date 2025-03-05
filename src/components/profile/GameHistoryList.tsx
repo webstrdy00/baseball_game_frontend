@@ -116,14 +116,14 @@ const GameHistoryList: React.FC<GameHistoryListProps> = ({
               <td className="py-3 px-4 text-center">
                 <button
                   onClick={() => onViewDetail(game.game_id)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                  className="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm font-semibold"
                 >
                   상세보기
                 </button>
                 {game.status === "ongoing" && (
                   <Link
                     to={`/game/${game.game_id}`}
-                    className="ml-2 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
+                    className="ml-2 px-3 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 text-sm font-semibold"
                   >
                     계속하기
                   </Link>

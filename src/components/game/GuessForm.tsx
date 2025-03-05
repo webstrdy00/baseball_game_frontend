@@ -89,7 +89,7 @@ const GuessForm: React.FC<GuessFormProps> = ({ gameId, digits, disabled }) => {
         <button
           type="submit"
           disabled={disabled || loading || !guess}
-          className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:bg-blue-300"
+          className="px-6 py-2 bg-blue-200 text-black font-semibold rounded-lg hover:bg-blue-300 transition-all duration-200 disabled:bg-blue-100 disabled:text-gray-600"
         >
           {loading ? <LoadingSpinner size="small" message="" /> : '제출'}
         </button>
