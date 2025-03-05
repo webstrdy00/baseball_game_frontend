@@ -9,7 +9,8 @@ import {
   TetrisPauseRequest, 
   TetrisPauseResponse,
   TetrisGameOverResponse,
-  TetrisLeaderboardResponse
+  TetrisLeaderboardResponse,
+  TetrisMoveType
 } from '../types/models';
 
 // 새 테트리스 게임 생성
@@ -41,12 +42,23 @@ export const getTetrisGameStatus = async (gameId: number): Promise<TetrisGameSta
 // 테트리스 블록 이동
 export const makeMove = async (gameId: number, moveRequest: TetrisMoveRequest): Promise<TetrisMoveResponse> => {
   try {
+    console.log(`API 호출: 게임 ID ${gameId}, 이동 타입 ${moveRequest.move_type}`);
+    
+    // 홀드 기능에 대한 특별 처리 - 현재 블록을 다음 블록으로 밀고 홀드 블록을 비우기 위한 파라미터 추가
+    const requestData = { ...moveRequest };
+    if (moveRequest.move_type === TetrisMoveType.HOLD) {
+      // 홀드 기능 사용 시 clear_hold=true 파라미터 추가
+      requestData.clear_hold = true;
+    }
+    
     const response = await axiosInstance.post<TetrisMoveResponse>(
       `/tetris/${gameId}/moves`, 
-      moveRequest
+      requestData
     );
+    console.log('API 응답:', response.data);
     return response.data;
   } catch (error) {
+    console.error('API 오류:', error);
     if (axios.isAxiosError(error) && error.response) {
       throw error.response.data;
     }

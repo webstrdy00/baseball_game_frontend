@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTetris } from '../../context/TetrisContext';
 import TetrisBoard from './TetrisBoard';
 import TetrisInfo from './TetrisInfo';
 import TetrisControls from './TetrisControls';
-// @ts-expect-error - 파일이 존재하지만 타입스크립트가 인식하지 못하는 문제
 import TetrisGameOver from './TetrisGameOver';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorMessage from '../common/ErrorMessage';
@@ -43,15 +42,18 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ gameId }) => {
     }
   }, [gameId, isInitialLoad, getGameStatus]);
   
-  const handleMove = (moveType: TetrisMoveType) => {
+  // useCallback으로 함수 메모이제이션
+  const handleMove = useCallback((moveType: TetrisMoveType) => {
     makeMove(moveType);
-  };
+  }, [makeMove]);
   
-  const handlePause = () => {
+  // useCallback으로 함수 메모이제이션
+  const handlePause = useCallback(() => {
     pauseGame(!isPaused);
-  };
+  }, [pauseGame, isPaused]);
   
-  const handleReset = async () => {
+  // useCallback으로 함수 메모이제이션
+  const handleReset = useCallback(async () => {
     if (gameStatus?.status === 'game_over') {
       resetGame();
       navigate('/tetris');
@@ -60,12 +62,13 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ gameId }) => {
         await forfeitGame();
       }
     }
-  };
+  }, [gameStatus, resetGame, navigate, forfeitGame]);
   
-  const handleNewGame = () => {
+  // useCallback으로 함수 메모이제이션
+  const handleNewGame = useCallback(() => {
     resetGame();
     navigate('/tetris');
-  };
+  }, [resetGame, navigate]);
   
   if (loading && !gameStatus) {
     return <LoadingSpinner message="게임 정보를 불러오는 중..." />;
@@ -91,46 +94,66 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ gameId }) => {
   
   return (
     <div className={styles.tetrisGameContainer}>
-      <h2 className={styles.gameTitle}>
-        테트리스
-        <span className={styles.gameStatus}>
-          {isGameOver ? '(게임 종료)' : isPaused ? '(일시정지)' : '(진행 중)'}
-        </span>
-      </h2>
-      
-      <div className={styles.gameContent}>
-        <TetrisBoard
-          board={gameStatus.board}
-          currentPiece={!isPaused ? gameStatus.current_piece : null}
-        />
-        
-        <div className={styles.sideInfo}>
-          <TetrisInfo
-            score={gameStatus.score}
-            level={gameStatus.level}
-            linesCleared={gameStatus.lines_cleared}
-            nextPiece={gameStatus.next_piece}
-            heldPiece={gameStatus.held_piece}
-            canHold={gameStatus.can_hold}
-          />
-          
-          <TetrisControls
-            onMove={handleMove}
-            onPause={handlePause}
-            onReset={handleReset}
-            isPaused={isPaused}
-            isGameOver={isGameOver}
-          />
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          <p>게임을 불러오는 중...</p>
         </div>
-      </div>
-      
-      {isGameOver && (
-        <TetrisGameOver
-          score={gameStatus.score}
-          level={gameStatus.level}
-          linesCleared={gameStatus.lines_cleared}
-          onNewGame={handleNewGame}
-        />
+      ) : error ? (
+        <div className={styles.errorContainer}>
+          <p>오류가 발생했습니다: {error}</p>
+          <button
+            className={styles.gameButton}
+            onClick={() => navigate('/tetris')}
+          >
+            테트리스 페이지로 돌아가기
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className={styles.gameStatus}>
+            <p>
+              <strong>레벨:</strong> {gameStatus.level} | <strong>점수:</strong>{' '}
+              {gameStatus.score} | <strong>라인:</strong> {gameStatus.lines_cleared}
+            </p>
+          </div>
+          <div className={styles.gameContent}>
+            <TetrisBoard
+              board={gameStatus.board}
+              currentPiece={!isPaused ? gameStatus.current_piece : null}
+              gameOver={isGameOver}
+            />
+            
+            <div className={styles.sideInfo}>
+              <TetrisInfo
+                score={gameStatus.score}
+                level={gameStatus.level}
+                linesCleared={gameStatus.lines_cleared}
+                nextPiece={gameStatus.next_piece}
+                heldPiece={gameStatus.held_piece}
+                canHold={gameStatus.can_hold}
+              />
+              
+              <TetrisControls
+                onMove={handleMove}
+                onPause={handlePause}
+                onReset={handleReset}
+                isPaused={isPaused}
+                isGameOver={isGameOver}
+                heldPiece={gameStatus.held_piece}
+                canHold={gameStatus.can_hold}
+              />
+            </div>
+          </div>
+          
+          {isGameOver && (
+            <TetrisGameOver
+              score={gameStatus.score}
+              level={gameStatus.level}
+              linesCleared={gameStatus.lines_cleared}
+              onNewGame={handleNewGame}
+            />
+          )}
+        </>
       )}
     </div>
   );

@@ -16,6 +16,8 @@ const CreateTetrisGame: React.FC = () => {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // 로그인 여부와 상관없이 게임 시작
     const gameData = await createGame({ level });
     if (gameData) {
       navigate(`/tetris/${gameData.game_id}`);
@@ -54,7 +56,7 @@ const CreateTetrisGame: React.FC = () => {
           disabled={loading}
           className={styles.startButton}
         >
-          {loading ? <LoadingSpinner size="small" message="" /> : '게임 시작'}
+          {loading ? <LoadingSpinner size="small" message="" /> : '테트리스 시작하기'}
         </button>
       </form>
     </div>

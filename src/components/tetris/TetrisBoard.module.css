@@ -2,25 +2,86 @@
     display: inline-block;
     border: 2px solid #333;
     background-color: #111;
-    padding: 10px;
+    padding: 2px;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    height: auto;
+    overflow: visible;
+    margin-bottom: 20px;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .gameOver {
+    opacity: 0.8;
+    position: relative;
+  }
+  
+  .gameOver::after {
+    content: "게임 종료";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 10;
   }
   
   .row {
     display: flex;
+    will-change: transform;
+    transform: translateZ(0);
   }
   
   .cell {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     border: 1px solid #222;
     box-sizing: border-box;
+    will-change: background-color;
+    transform: translateZ(0);
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
   }
   
   @media (max-width: 768px) {
+    .tetrisBoard {
+      max-height: 80vh;
+    }
+    
     .cell {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
+    }
+    
+    .gameOver::after {
+      font-size: 1.2rem;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tetrisBoard {
+      max-height: 75vh;
+      margin-bottom: 15px;
+    }
+    
+    .cell {
+      width: 25px;
+      height: 25px;
+    }
+    
+    .gameOver::after {
+      font-size: 1rem;
+      padding: 6px 12px;
     }
   }

@@ -1,96 +1,199 @@
 .tetrisControls {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 15px;
+    margin-top: 15px;
+    width: 100%;
   }
   
   .mobileControls {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
   }
   
   .directionButtons {
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 5px;
   }
   
   .upDownButtons {
     display: flex;
     flex-direction: column;
-    margin: 0 10px;
+    gap: 5px;
   }
   
   .controlButton {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    margin: 5px;
-    transition: all 0.2s;
+    transition: background-color 0.2s;
+    user-select: none;
   }
   
   .controlButton:hover:not(:disabled) {
-    background-color: #e5e7eb;
+    background-color: #555;
   }
   
   .controlButton:disabled {
-    opacity: 0.5;
+    background-color: #222;
+    color: #555;
     cursor: not-allowed;
   }
   
   .actionButtons {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    flex-direction: column;
+    gap: 5px;
   }
   
   .actionButtons .controlButton {
-    width: 100px;
+    background-color: #444;
   }
   
   .gameControls {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
     margin-top: 10px;
   }
   
   .gameButton {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.2s;
+    flex: 1;
+    padding: 10px 0;
+    font-size: 1rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
   }
   
   .gameButton:first-child {
-    background-color: #3b82f6;
-    color: white;
+    background-color: #3498db;
   }
   
-  .gameButton:first-child:hover:not(:disabled) {
-    background-color: #2563eb;
+  .gameButton:first-child:hover {
+    background-color: #2980b9;
   }
   
   .gameButton:last-child {
-    background-color: #ef4444;
+    background-color: #e74c3c;
+  }
+  
+  .gameButton:last-child:hover {
+    background-color: #c0392b;
+  }
+  
+  .gameButton:disabled {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+  }
+  
+  .pauseButton {
+    background-color: #3498db;
     color: white;
+    font-weight: bold;
   }
   
-  .gameButton:last-child:hover:not(:disabled) {
-    background-color: #dc2626;
+  .pauseButton:hover {
+    background-color: #2980b9;
   }
   
-  .gameButton.resume {
-    background-color: #10b981;
+  .resetButton {
+    background-color: #e74c3c;
+    color: white;
+    font-weight: bold;
   }
   
-  .gameButton.resume:hover:not(:disabled) {
-    background-color: #059669;
+  .resetButton:hover {
+    background-color: #c0392b;
+  }
+  
+  .hasHeldPiece {
+    background-color: #4caf50 !important;
+    color: white !important;
+    position: relative;
+  }
+  
+  .hasHeldPiece::after {
+    content: '✓';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff5722;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .disabledHold {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+    position: relative;
+  }
+  
+  .disabledHold::after {
+    content: '✕';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @media (max-width: 768px) {
+    .controlButton {
+      width: 45px;
+      height: 45px;
+      font-size: 1.3rem;
+    }
+    
+    .gameControls {
+      margin-top: 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tetrisControls {
+      gap: 10px;
+    }
+    
+    .controlButton {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+    
+    .gameButton {
+      padding: 8px 0;
+      font-size: 0.9rem;
+    }
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TetrisMoveType } from '../../types/models';
+import { TetrisMoveType, TetrisPiece } from '../../types/models';
 import styles from './TetrisControls.module.css';
 
 interface TetrisControlsProps {
@@ -8,6 +8,8 @@ interface TetrisControlsProps {
   onReset: () => void;
   isPaused: boolean;
   isGameOver: boolean;
+  heldPiece: TetrisPiece | null;
+  canHold: boolean;
 }
 
 const TetrisControls: React.FC<TetrisControlsProps> = ({
@@ -15,89 +17,88 @@ const TetrisControls: React.FC<TetrisControlsProps> = ({
   onPause,
   onReset,
   isPaused,
-  isGameOver
+  isGameOver,
+  heldPiece,
+  canHold,
 }) => {
+  // 홀드 버튼 클릭 핸들러
+  const handleHoldClick = () => {
+    console.log("홀드 버튼 클릭 - 현재 상태:", { heldPiece, canHold });
+    onMove(TetrisMoveType.HOLD);
+  };
+
   return (
     <div className={styles.tetrisControls}>
       <div className={styles.mobileControls}>
         <div className={styles.directionButtons}>
           <button
+            className={styles.controlButton}
             onClick={() => onMove(TetrisMoveType.LEFT)}
             disabled={isPaused || isGameOver}
-            className={styles.controlButton}
-            aria-label="왼쪽으로 이동"
+            aria-label="Move Left"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
-              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
-            </svg>
+            ←
           </button>
           <div className={styles.upDownButtons}>
             <button
+              className={styles.controlButton}
               onClick={() => onMove(TetrisMoveType.ROTATE)}
               disabled={isPaused || isGameOver}
-              className={styles.controlButton}
-              aria-label="회전"
+              aria-label="Rotate"
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
-                <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z" />
-              </svg>
+              ↻
             </button>
             <button
+              className={styles.controlButton}
               onClick={() => onMove(TetrisMoveType.DOWN)}
               disabled={isPaused || isGameOver}
-              className={styles.controlButton}
-              aria-label="아래로 이동"
+              aria-label="Move Down"
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
-                <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
-              </svg>
+              ↓
             </button>
           </div>
           <button
+            className={styles.controlButton}
             onClick={() => onMove(TetrisMoveType.RIGHT)}
             disabled={isPaused || isGameOver}
-            className={styles.controlButton}
-            aria-label="오른쪽으로 이동"
+            aria-label="Move Right"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
-              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-            </svg>
+            →
           </button>
         </div>
-        
         <div className={styles.actionButtons}>
           <button
-            onClick={() => onMove(TetrisMoveType.HOLD)}
-            disabled={isPaused || isGameOver}
             className={styles.controlButton}
-            aria-label="블록 홀드"
-          >
-            <span>HOLD</span>
-          </button>
-          <button
             onClick={() => onMove(TetrisMoveType.HARD_DROP)}
             disabled={isPaused || isGameOver}
-            className={styles.controlButton}
-            aria-label="하드 드롭"
+            aria-label="Hard Drop"
           >
-            <span>DROP</span>
+            ⤓
+          </button>
+          <button
+            className={`${styles.controlButton} ${heldPiece ? styles.hasHeldPiece : ''} ${!canHold ? styles.disabledHold : ''}`}
+            onClick={handleHoldClick}
+            disabled={isPaused || isGameOver || !canHold}
+            aria-label="Hold Block"
+            title={!canHold ? "홀드 불가능" : heldPiece ? "홀드된 블록 사용" : "현재 블록 홀드"}
+          >
+            H
           </button>
         </div>
       </div>
-      
       <div className={styles.gameControls}>
         <button
+          className={`${styles.gameButton} ${styles.pauseButton}`}
           onClick={onPause}
           disabled={isGameOver}
-          className={`${styles.gameButton} ${isPaused ? styles.resume : ''}`}
         >
           {isPaused ? '게임 재개' : '일시정지'}
         </button>
         <button
+          className={`${styles.gameButton} ${styles.resetButton}`}
           onClick={onReset}
-          className={styles.gameButton}
         >
-          {isGameOver ? '새 게임' : '게임 포기'}
+          재시작
         </button>
       </div>
     </div>

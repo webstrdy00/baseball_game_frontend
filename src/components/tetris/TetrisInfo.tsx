@@ -96,7 +96,7 @@ const TetrisInfo: React.FC<TetrisInfoProps> = ({
           <li>↓: 아래로 이동</li>
           <li>↑: 회전</li>
           <li>스페이스바: 하드 드롭</li>
-          <li>C: 블록 홀드</li>
+          <li>C/H: 블록 홀드</li>
           <li>P: 일시정지</li>
         </ul>
       </div>

@@ -69,7 +69,9 @@ const keyMappings: Record<string, TetrisMoveType> = {
   'ArrowUp': TetrisMoveType.ROTATE,
   ' ': TetrisMoveType.HARD_DROP, // 스페이스바
   'c': TetrisMoveType.HOLD,
-  'C': TetrisMoveType.HOLD
+  'C': TetrisMoveType.HOLD,
+  'h': TetrisMoveType.HOLD, // 'h' 키도 홀드 기능으로 추가
+  'H': TetrisMoveType.HOLD  // 'H' 키도 홀드 기능으로 추가
 };
 
 // TetrisProvider 컴포넌트
@@ -114,25 +116,124 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
       return null;
     }
 
-    setLoading(true);
+    // 홀드 기능 사용 가능 여부 확인 및 디버깅 로그 추가
+    if (moveType === TetrisMoveType.HOLD) {
+      console.log("홀드 시도 - 현재 can_hold 상태:", gameStatus.can_hold);
+      if (!gameStatus.can_hold) {
+        console.log("홀드 기능을 사용할 수 없습니다.");
+        return null;
+      }
+      
+      // 홀드 블록이 있는지 확인
+      const isUsingHeldPiece = gameStatus.held_piece !== null;
+      console.log("홀드 블록 사용 여부:", isUsingHeldPiece);
+    }
+
+    // 하드 드롭 시에는 로딩 상태를 표시하지 않음
+    // 홀드 기능만 로딩 상태 표시
+    const isImportantMove = moveType === TetrisMoveType.HOLD;
+    if (isImportantMove) {
+      setLoading(true);
+    }
+    
     setError(null);
     try {
+      console.log(`${moveType} 이동 요청 전송`);
       const moveData = await makeMove(currentGame.id, { move_type: moveType });
+      console.log(`${moveType} 이동 응답:`, moveData);
 
       // 게임 상태 업데이트
       if (moveData.status !== 'ongoing') {
+        // 게임 상태가 변경되었을 때 (게임 오버 등) 전체 상태 조회
         const statusData = await getTetrisGameStatus(currentGame.id);
+        console.log("게임 상태 변경 후 상태 조회:", statusData);
+        
+        // 홀드 기능 사용 시 특별 처리
+        if (moveType === TetrisMoveType.HOLD) {
+          // 홀드 블록이 있었다면 비우기
+          if (gameStatus.held_piece) {
+            statusData.held_piece = null;
+          }
+        }
+        // 다른 경우에는 홀드된 블록 정보 유지
+        else if (gameStatus.held_piece && !statusData.held_piece) {
+          console.log("홀드 정보 유지:", gameStatus.held_piece);
+          statusData.held_piece = gameStatus.held_piece;
+          
+          // 홀드 사용 가능 여부도 유지
+          if (gameStatus.can_hold !== undefined) {
+            statusData.can_hold = gameStatus.can_hold;
+          }
+        }
+        
         setGameStatus(statusData);
       } else {
         // 성능 최적화를 위해 API 응답으로 직접 상태 업데이트
+        // 함수형 업데이트를 사용하여 최신 상태 보장
         setGameStatus(prevStatus => {
           if (!prevStatus) return null;
+          
+          // 하드 드롭이나 홀드의 경우 항상 업데이트 (깜빡임 방지)
+          if (moveType === TetrisMoveType.HARD_DROP || moveType === TetrisMoveType.HOLD) {
+            console.log("하드 드롭/홀드 후 상태 업데이트:", {
+              held_piece: moveData.held_piece || prevStatus.held_piece,
+              can_hold: moveData.can_hold
+            });
+            
+            // 홀드 기능 사용 시 특별 처리
+            if (moveType === TetrisMoveType.HOLD && prevStatus.held_piece) {
+              // 홀드 블록을 사용한 경우 홀드 블록을 비움
+              console.log("홀드 블록 사용 후 비우기");
+              return {
+                ...prevStatus,
+                board: moveData.board,
+                current_piece: moveData.current_piece,
+                next_piece: moveData.next_piece,
+                held_piece: null, // 홀드 블록 비우기
+                score: moveData.score,
+                level: moveData.level,
+                lines_cleared: moveData.lines_cleared,
+                can_hold: moveData.can_hold,
+                status: moveData.status
+              };
+            }
+            
+            return {
+              ...prevStatus,
+              board: moveData.board,
+              current_piece: moveData.current_piece,
+              next_piece: moveData.next_piece,
+              held_piece: moveData.held_piece || prevStatus.held_piece, // 홀드 정보 유지
+              score: moveData.score,
+              level: moveData.level,
+              lines_cleared: moveData.lines_cleared,
+              can_hold: moveData.can_hold,
+              status: moveData.status
+            };
+          }
+          
+          // 이전 상태와 새 상태가 동일한 경우 리렌더링 방지
+          if (
+            JSON.stringify(prevStatus.board) === JSON.stringify(moveData.board) &&
+            JSON.stringify(prevStatus.current_piece) === JSON.stringify(moveData.current_piece) &&
+            prevStatus.score === moveData.score &&
+            prevStatus.level === moveData.level &&
+            prevStatus.lines_cleared === moveData.lines_cleared
+          ) {
+            return prevStatus;
+          }
+          
+          // 모든 이동 타입에 대해 held_piece 정보 유지
+          console.log("일반 이동 후 상태 업데이트:", {
+            held_piece: moveData.held_piece || prevStatus.held_piece,
+            can_hold: moveData.can_hold
+          });
           return {
             ...prevStatus,
             board: moveData.board,
             current_piece: moveData.current_piece,
             next_piece: moveData.next_piece,
-            held_piece: moveData.held_piece,
+            held_piece: moveData.held_piece || prevStatus.held_piece, // held_piece가 null이면 이전 상태 유지
             score: moveData.score,
             level: moveData.level,
             lines_cleared: moveData.lines_cleared,
@@ -152,7 +253,9 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
       );
       return null;
     } finally {
-      setLoading(false);
+      if (isImportantMove) {
+        setLoading(false);
+      }
     }
   }, [currentGame, gameStatus, isPaused, setLoading, setError, setGameStatus]);
 
@@ -214,11 +317,20 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
       return gameData;
     } catch (err: unknown) {
       console.error("게임 생성 오류:", err);
-      setError(
-        typeof err === "object" && err !== null && "detail" in err
-          ? (err.detail as string)
-          : "게임 생성 중 오류가 발생했습니다."
-      );
+      
+      // 인증 오류인 경우 (401)
+      if (typeof err === "object" && err !== null) {
+        if ("status" in err && err.status === 401) {
+          setError("로그인하지 않아도 게임을 플레이할 수 있지만, 점수를 저장하려면 로그인이 필요합니다.");
+        } else if ("detail" in err) {
+          setError(err.detail as string);
+        } else {
+          setError("게임 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        }
+      } else {
+        setError("게임 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      }
+      
       return null;
     } finally {
       setLoading(false);
@@ -239,8 +351,19 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
     setError(null);
     try {
       const statusData = await getTetrisGameStatus(id);
+      
+      // 이전 상태의 홀드 정보 유지
+      if (gameStatus?.held_piece && !statusData.held_piece) {
+        statusData.held_piece = gameStatus.held_piece;
+        
+        // 홀드 사용 가능 여부도 유지
+        if (gameStatus.can_hold !== undefined) {
+          statusData.can_hold = gameStatus.can_hold;
+        }
+      }
+      
       setGameStatus(statusData);
-
+      
       // 현재 게임이 아닌 다른 게임 조회 시 현재 게임 업데이트
       if (gameId && (!currentGame || currentGame.id !== gameId)) {
         setCurrentGame({
@@ -250,7 +373,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
           level: statusData.level
         });
       }
-
+      
       // 일시정지 상태 업데이트
       setIsPaused(statusData.status === 'paused');
 

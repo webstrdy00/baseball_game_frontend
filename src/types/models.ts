@@ -134,6 +134,7 @@ export enum TetrisMoveType {
 
 export interface TetrisMoveRequest {
   move_type: TetrisMoveType;
+  clear_hold?: boolean;
 }
 
 export interface TetrisMoveResponse {
