@@ -1,0 +1,73 @@
+.createGameContainer {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .createGameTitle {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .createGameForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .formLabel {
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+  
+  .levelSelect {
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background-color: #f9fafb;
+  }
+  
+  .levelDescription {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 4px;
+  }
+  
+  .startButton {
+    padding: 15px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+  }
+  
+  .startButton:hover:not(:disabled) {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(59, 130, 246, 0.4);
+  }
+  
+  .startButton:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+  }

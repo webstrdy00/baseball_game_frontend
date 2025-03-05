@@ -135,20 +135,20 @@ const GameResultModal: React.FC<GameResultModalProps> = ({
           <div className="flex justify-between mt-6">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+              className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
             >
               닫기
             </button>
-            <div className="space-x-2">
+            <div className="space-x-4">
               <button
                 onClick={onNewGame}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                className="px-4 py-2 bg-primary-600 text-white font-semibold rounded hover:bg-primary-700 hover:text-white transition-all duration-200"
               >
                 새 게임
               </button>
               <button
                 onClick={() => navigate('/profile')}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                className="px-4 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 hover:text-white transition-all duration-200"
               >
                 게임 기록
               </button>

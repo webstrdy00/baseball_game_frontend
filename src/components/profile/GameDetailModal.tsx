@@ -1,5 +1,5 @@
 import React from "react";
-import { GameDetailHistoryResponse, GuessHistory } from "../../types/models";
+import { GameDetailHistoryResponse } from "../../types/models";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 interface GameDetailModalProps {

@@ -1,0 +1,100 @@
+.leaderboardContainer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .leaderboardTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .tabContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .tabButton {
+    padding: 10px 20px;
+    font-weight: 500;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  
+  .tabButton:hover:not(:disabled) {
+    color: #3b82f6;
+  }
+  
+  .activeTab {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+  }
+  
+  .emptyLeaderboard {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+  }
+  
+  .leaderboardTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .leaderboardTable th {
+    background-color: #f3f4f6;
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+  }
+  
+  .leaderboardTable td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .topScore {
+    background-color: rgba(255, 215, 0, 0.1);
+    font-weight: 500;
+  }
+  
+  .scoreCell {
+    font-weight: bold;
+    color: #3b82f6;
+  }
+  
+  .leaderboardFooter {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .playButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .playButton:hover {
+    background-color: #2563eb;
+  }
+
+  .loginButton {
+    background-color: #4f46e5;
+  }
+  
+  .loginButton:hover {
+    background-color: #4338ca;
+  }

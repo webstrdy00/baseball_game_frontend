@@ -99,3 +99,100 @@ export interface GameDetailHistoryResponse {
   guesses: GuessHistory[];
   answer: string | null;
 }
+
+export interface TetrisPiece {
+  type: string;
+  shape: number[][];
+  color: number;
+  position: number[];
+  rotation: number;
+}
+
+export interface CreateTetrisGameRequest {
+  width?: number;
+  height?: number;
+  level?: number;
+}
+
+export interface CreateTetrisGameResponse {
+  game_id: number;
+  width: number;
+  height: number;
+  level: number;
+  message: string;
+}
+
+export enum TetrisMoveType {
+  LEFT = "left",
+  RIGHT = "right",
+  DOWN = "down",
+  ROTATE = "rotate",
+  DROP = "drop",
+  HARD_DROP = "hard_drop",
+  HOLD = "hold"
+}
+
+export interface TetrisMoveRequest {
+  move_type: TetrisMoveType;
+  clear_hold?: boolean;
+}
+
+export interface TetrisMoveResponse {
+  success: boolean;
+  board: number[][];
+  current_piece: TetrisPiece | null;
+  next_piece: TetrisPiece | null;
+  held_piece: TetrisPiece | null;
+  score: number;
+  level: number;
+  lines_cleared: number;
+  line_clear_count: number;
+  status: string;
+  can_hold: boolean;
+  message: string;
+}
+
+export interface TetrisGameStatusResponse {
+  game_id: number;
+  status: string;
+  board: number[][];
+  current_piece: TetrisPiece | null;
+  next_piece: TetrisPiece | null;
+  held_piece: TetrisPiece | null;
+  score: number;
+  level: number;
+  lines_cleared: number;
+  can_hold: boolean;
+}
+
+export interface TetrisPauseRequest {
+  paused: boolean;
+}
+
+export interface TetrisPauseResponse {
+  game_id: number;
+  status: string;
+  message: string;
+}
+
+export interface TetrisGameOverResponse {
+  game_id: number;
+  final_score: number;
+  level_reached: number;
+  lines_cleared: number;
+  game_duration: number;
+  high_score: boolean;
+}
+
+export interface TetrisHighScoreItem {
+  username: string;
+  score: number;
+  level: number;
+  lines_cleared: number;
+  game_duration: number;
+  created_at: string;
+}
+
+export interface TetrisLeaderboardResponse {
+  scores: TetrisHighScoreItem[];
+}
