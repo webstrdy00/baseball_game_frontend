@@ -139,7 +139,22 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
     setError(null);
     try {
       console.log(`${moveType} 이동 요청 전송`);
-      const moveData = await makeMove(currentGame.id, { move_type: moveType });
+      
+      // 홀드 기능 사용 시 특별 처리
+      let moveData;
+      if (moveType === TetrisMoveType.HOLD && gameStatus.held_piece) {
+        // 홀드된 블록이 있는 경우, 특별 파라미터 전달
+        console.log("홀드 블록 사용 모드: 현재 블록을 홀드에 저장하지 않음");
+        moveData = await makeMove(currentGame.id, { 
+          move_type: moveType,
+          clear_hold: true,  // 홀드 블록을 비우기
+          skip_store: true   // 현재 블록을 홀드에 저장하지 않음
+        });
+      } else {
+        // 일반적인 이동 또는 첫 홀드
+        moveData = await makeMove(currentGame.id, { move_type: moveType });
+      }
+      
       console.log(`${moveType} 이동 응답:`, moveData);
 
       // 게임 상태 업데이트

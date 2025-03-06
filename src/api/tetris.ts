@@ -44,11 +44,25 @@ export const makeMove = async (gameId: number, moveRequest: TetrisMoveRequest): 
   try {
     console.log(`API 호출: 게임 ID ${gameId}, 이동 타입 ${moveRequest.move_type}`);
     
-    // 홀드 기능에 대한 특별 처리 - 현재 블록을 다음 블록으로 밀고 홀드 블록을 비우기 위한 파라미터 추가
+    // 홀드 기능에 대한 특별 처리
     const requestData = { ...moveRequest };
     if (moveRequest.move_type === TetrisMoveType.HOLD) {
-      // 홀드 기능 사용 시 clear_hold=true 파라미터 추가
-      requestData.clear_hold = true;
+      // 홀드된 블록이 있는지 확인하기 위해 게임 상태 조회
+      try {
+        const gameStatus = await getTetrisGameStatus(gameId);
+        console.log("홀드 전 게임 상태:", gameStatus.held_piece);
+        
+        // 홀드된 블록이 있으면 clear_hold=true 파라미터 추가
+        if (gameStatus.held_piece) {
+          console.log("홀드 블록 사용 모드: clear_hold=true, skip_store=true");
+          requestData.clear_hold = true;  // 홀드 블록을 비우기
+          requestData.skip_store = true;  // 현재 블록을 홀드에 저장하지 않음
+        } else {
+          console.log("일반 홀드 모드: 현재 블록을 홀드에 저장");
+        }
+      } catch (error) {
+        console.error("게임 상태 조회 실패:", error);
+      }
     }
     
     const response = await axiosInstance.post<TetrisMoveResponse>(
