@@ -21,6 +21,7 @@ interface AuthContextType {
   login: (credentials: LoginCredentials) => Promise<User | null>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
+  setCurrentUser: (user: User) => void;
 }
 
 // 기본값 생성
@@ -31,6 +32,7 @@ const defaultAuthContext: AuthContextType = {
   login: async () => null,
   logout: async () => {},
   isAuthenticated: false,
+  setCurrentUser: () => {},
 };
 
 // 컨텍스트 생성
@@ -110,6 +112,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       await apiLogout();
       setUser(null);
+      // 로컬 스토리지에서 사용자 정보와 토큰 제거
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
     } catch (err: unknown) {
       console.error("로그아웃 오류:", err);
       setError(
@@ -122,6 +127,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // 사용자 직접 설정 함수
+  const setCurrentUser = (userData: User): void => {
+    setUser(userData);
+  };
+
   // 공개할 컨텍스트 값
   const value = {
     user,
@@ -130,6 +140,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     logout,
     isAuthenticated: !!user,
+    setCurrentUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
