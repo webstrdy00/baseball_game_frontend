@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/auth/kakao/success(.*)", "destination": "/index.html" },
+    { "source": "/auth/kakao/error(.*)", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
