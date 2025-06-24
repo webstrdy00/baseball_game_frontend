@@ -1,6 +1,7 @@
 import React from 'react';
 import { TetrisMoveType, TetrisPiece } from '../../types/models';
 import styles from './TetrisControls.module.css';
+import logger from '../../utils/logger';
 
 interface TetrisControlsProps {
   onMove: (moveType: TetrisMoveType) => void;
@@ -23,7 +24,7 @@ const TetrisControls: React.FC<TetrisControlsProps> = ({
 }) => {
   // 홀드 버튼 클릭 핸들러
   const handleHoldClick = () => {
-    console.log("홀드 버튼 클릭 - 현재 상태:", { heldPiece, canHold });
+    logger.log("홀드 버튼 클릭 - 현재 상태:", { heldPiece, canHold });
     onMove(TetrisMoveType.HOLD);
   };
 

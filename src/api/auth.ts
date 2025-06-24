@@ -1,5 +1,6 @@
 import axiosInstance from "./axios";
 import axios from "axios";
+import logger from '../utils/logger';
 import {
   User,
   UserCreate,
@@ -33,13 +34,13 @@ export const login = async (
       credentials
     );
 
-    console.log("로그인 응답:", response.data); // 응답 확인
+    logger.log("로그인 응답:", response.data); // 응답 확인
 
     // 로컬 스토리지에 토큰 저장
     localStorage.setItem("access_token", response.data.access_token);
     localStorage.setItem("user", JSON.stringify(response.data.user));
 
-    console.log("저장된 토큰:", localStorage.getItem("access_token")); // 저장 확인
+    logger.log("저장된 토큰:", localStorage.getItem("access_token")); // 저장 확인
 
     return response.data;
   } catch (error) {

@@ -9,6 +9,7 @@ import GameStatus from "./GameStatus";
 import GameResultModal from "./GameResultModal";
 import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorMessage from "../common/ErrorMessage";
+import logger from "../../utils/logger";
 
 interface GameBoardProps {
   gameId: number;
@@ -53,7 +54,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameId }) => {
               setGameAnswer(detailData.answer);
             }
           } catch (error) {
-            console.error("게임 상세 정보 조회 실패:", error);
+            logger.error("게임 상세 정보 조회 실패:", error);
           }
         };
 

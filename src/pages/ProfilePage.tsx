@@ -13,6 +13,7 @@ import {
   GameDetailHistoryResponse,
   UserGameHistoryResponse,
 } from "../types/models";
+import logger from "../utils/logger";
 
 const ProfilePage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -41,7 +42,7 @@ const ProfilePage: React.FC = () => {
         const historyData = await getUserGameHistory();
         setUserHistory(historyData);
       } catch (err: unknown) {
-        console.error("게임 히스토리 조회 오류:", err);
+        logger.error("게임 히스토리 조회 오류:", err);
         setError(
           typeof err === "object" && err !== null && "detail" in err
             ? (err.detail as string)
@@ -65,7 +66,7 @@ const ProfilePage: React.FC = () => {
       const detailData = await getGameDetailHistory(gameId);
       setSelectedGameDetail(detailData);
     } catch (err: unknown) {
-      console.error("게임 상세 정보 조회 오류:", err);
+      logger.error("게임 상세 정보 조회 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)

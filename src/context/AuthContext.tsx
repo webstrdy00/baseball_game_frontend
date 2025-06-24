@@ -12,6 +12,7 @@ import {
   getCurrentUser,
 } from "../api/auth";
 import { LoginCredentials } from "../types/models";
+import logger from "../utils/logger";
 
 // 인증 컨텍스트의 타입 정의
 interface AuthContextType {
@@ -64,7 +65,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const userData = await getCurrentUser();
             setUser(userData);
           } catch (error: unknown) {
-            console.error("토큰 검증 오류:", error);
+            logger.error("토큰 검증 오류:", error);
             // 토큰이 유효하지 않으면 로그아웃 처리
             localStorage.removeItem("access_token");
             localStorage.removeItem("user");
@@ -74,7 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setUser(null);
         }
       } catch (err) {
-        console.error("인증 초기화 오류:", err);
+        logger.error("인증 초기화 오류:", err);
         setError("인증 초기화 중 오류가 발생했습니다.");
         setUser(null);
       } finally {
@@ -94,7 +95,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(data.user);
       return data.user;
     } catch (err: unknown) {
-      console.error("로그인 오류:", err);
+      logger.error("로그인 오류:", err);
       setError(
         typeof err === "object" && err !== null && "message" in err
           ? (err.message as string)
@@ -116,7 +117,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
     } catch (err: unknown) {
-      console.error("로그아웃 오류:", err);
+      logger.error("로그아웃 오류:", err);
       setError(
         typeof err === "object" && err !== null && "message" in err
           ? (err.message as string)
