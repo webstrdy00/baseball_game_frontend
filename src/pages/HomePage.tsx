@@ -166,7 +166,7 @@ const HomePage: React.FC = () => {
               </Link>
               <Link
                 to="/tetris"
-                className="flex items-center justify-center bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 hover:text-white transition"
+                className="flex items-center justify-center bg-gray-200 text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-300 hover:text-gray-800 transition"
               >
                 <svg
                   className="w-5 h-5 mr-2"
