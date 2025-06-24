@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import LoadingSpinner from "../common/LoadingSpinner";
+import logger from "../../utils/logger";
 
 interface LogoutButtonProps {
   className?: string;
@@ -27,7 +28,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({
         onClick();
       }
     } catch (error) {
-      console.error("로그아웃 중 오류 발생:", error);
+      logger.error("로그아웃 중 오류 발생:", error);
     } finally {
       setLoading(false);
     }

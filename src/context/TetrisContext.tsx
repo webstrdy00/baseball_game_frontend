@@ -12,6 +12,7 @@ import {
   TetrisMoveType,
   TetrisMoveResponse
 } from '../types/models';
+import logger from '../utils/logger';
 
 // 현재 테트리스 게임 정보 타입
 interface CurrentTetrisGame {
@@ -99,7 +100,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
       const statusData = await getTetrisGameStatus(currentGame.id);
       setGameStatus(statusData);
     } catch (err: unknown) {
-      console.error("일시정지 오류:", err);
+      logger.error("일시정지 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)
@@ -118,15 +119,15 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
 
     // 홀드 기능 사용 가능 여부 확인 및 디버깅 로그 추가
     if (moveType === TetrisMoveType.HOLD) {
-      console.log("홀드 시도 - 현재 can_hold 상태:", gameStatus.can_hold);
+      logger.log("홀드 시도 - 현재 can_hold 상태:", gameStatus.can_hold);
       if (!gameStatus.can_hold) {
-        console.log("홀드 기능을 사용할 수 없습니다.");
+        logger.log("홀드 기능을 사용할 수 없습니다.");
         return null;
       }
       
       // 홀드 블록이 있는지 확인
       const isUsingHeldPiece = gameStatus.held_piece !== null;
-      console.log("홀드 블록 사용 여부:", isUsingHeldPiece);
+      logger.log("홀드 블록 사용 여부:", isUsingHeldPiece);
     }
 
     // 하드 드롭 시에는 로딩 상태를 표시하지 않음
@@ -138,13 +139,13 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
     
     setError(null);
     try {
-      console.log(`${moveType} 이동 요청 전송`);
+      logger.log(`${moveType} 이동 요청 전송`);
       
       // 홀드 기능 사용 시 특별 처리
       let moveData;
       if (moveType === TetrisMoveType.HOLD && gameStatus.held_piece) {
         // 홀드된 블록이 있는 경우, 특별 파라미터 전달
-        console.log("홀드 블록 사용 모드: 현재 블록을 홀드에 저장하지 않음");
+        logger.log("홀드 블록 사용 모드: 현재 블록을 홀드에 저장하지 않음");
         moveData = await makeMove(currentGame.id, { 
           move_type: moveType,
           clear_hold: true,  // 홀드 블록을 비우기
@@ -155,13 +156,13 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
         moveData = await makeMove(currentGame.id, { move_type: moveType });
       }
       
-      console.log(`${moveType} 이동 응답:`, moveData);
+      logger.log(`${moveType} 이동 응답:`, moveData);
 
       // 게임 상태 업데이트
       if (moveData.status !== 'ongoing') {
         // 게임 상태가 변경되었을 때 (게임 오버 등) 전체 상태 조회
         const statusData = await getTetrisGameStatus(currentGame.id);
-        console.log("게임 상태 변경 후 상태 조회:", statusData);
+        logger.log("게임 상태 변경 후 상태 조회:", statusData);
         
         // 홀드 기능 사용 시 특별 처리
         if (moveType === TetrisMoveType.HOLD) {
@@ -172,7 +173,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
         }
         // 다른 경우에는 홀드된 블록 정보 유지
         else if (gameStatus.held_piece && !statusData.held_piece) {
-          console.log("홀드 정보 유지:", gameStatus.held_piece);
+          logger.log("홀드 정보 유지:", gameStatus.held_piece);
           statusData.held_piece = gameStatus.held_piece;
           
           // 홀드 사용 가능 여부도 유지
@@ -190,7 +191,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
           
           // 하드 드롭이나 홀드의 경우 항상 업데이트 (깜빡임 방지)
           if (moveType === TetrisMoveType.HARD_DROP || moveType === TetrisMoveType.HOLD) {
-            console.log("하드 드롭/홀드 후 상태 업데이트:", {
+            logger.log("하드 드롭/홀드 후 상태 업데이트:", {
               held_piece: moveData.held_piece || prevStatus.held_piece,
               can_hold: moveData.can_hold
             });
@@ -198,7 +199,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
             // 홀드 기능 사용 시 특별 처리
             if (moveType === TetrisMoveType.HOLD && prevStatus.held_piece) {
               // 홀드 블록을 사용한 경우 홀드 블록을 비움
-              console.log("홀드 블록 사용 후 비우기");
+              logger.log("홀드 블록 사용 후 비우기");
               return {
                 ...prevStatus,
                 board: moveData.board,
@@ -239,7 +240,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
           }
           
           // 모든 이동 타입에 대해 held_piece 정보 유지
-          console.log("일반 이동 후 상태 업데이트:", {
+          logger.log("일반 이동 후 상태 업데이트:", {
             held_piece: moveData.held_piece || prevStatus.held_piece,
             can_hold: moveData.can_hold
           });
@@ -260,7 +261,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
 
       return moveData;
     } catch (err: unknown) {
-      console.error("이동 오류:", err);
+      logger.error("이동 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)
@@ -284,7 +285,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
     const dropSpeed = Math.max(100, 1000 - (gameStatus.level - 1) * 100);
 
     const intervalId = setInterval(() => {
-      moveBlock(TetrisMoveType.DOWN).catch(console.error);
+      moveBlock(TetrisMoveType.DOWN).catch(logger.error);
     }, dropSpeed);
 
     return () => clearInterval(intervalId);
@@ -299,7 +300,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (keyMappings[e.key]) {
         e.preventDefault();
-        moveBlock(keyMappings[e.key]).catch(console.error);
+        moveBlock(keyMappings[e.key]).catch(logger.error);
       } else if (e.key === 'p' || e.key === 'P') {
         togglePause();
       }
@@ -331,7 +332,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
 
       return gameData;
     } catch (err: unknown) {
-      console.error("게임 생성 오류:", err);
+      logger.error("게임 생성 오류:", err);
       
       // 인증 오류인 경우 (401)
       if (typeof err === "object" && err !== null) {
@@ -394,7 +395,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
 
       return statusData;
     } catch (err: unknown) {
-      console.error("게임 상태 조회 오류:", err);
+      logger.error("게임 상태 조회 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)
@@ -423,7 +424,7 @@ export const TetrisProvider: React.FC<TetrisProviderProps> = ({ children }) => {
       setGameStatus(statusData);
       setIsPaused(false);
     } catch (err: unknown) {
-      console.error("게임 포기 오류:", err);
+      logger.error("게임 포기 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)

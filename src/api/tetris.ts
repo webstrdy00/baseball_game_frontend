@@ -1,5 +1,6 @@
 import axiosInstance from './axios';
 import axios from 'axios';
+import logger from '../utils/logger';
 import { 
   CreateTetrisGameRequest, 
   CreateTetrisGameResponse, 
@@ -42,7 +43,7 @@ export const getTetrisGameStatus = async (gameId: number): Promise<TetrisGameSta
 // 테트리스 블록 이동
 export const makeMove = async (gameId: number, moveRequest: TetrisMoveRequest): Promise<TetrisMoveResponse> => {
   try {
-    console.log(`API 호출: 게임 ID ${gameId}, 이동 타입 ${moveRequest.move_type}`);
+    logger.log(`API 호출: 게임 ID ${gameId}, 이동 타입 ${moveRequest.move_type}`);
     
     // 홀드 기능에 대한 특별 처리
     const requestData = { ...moveRequest };
@@ -50,18 +51,18 @@ export const makeMove = async (gameId: number, moveRequest: TetrisMoveRequest): 
       // 홀드된 블록이 있는지 확인하기 위해 게임 상태 조회
       try {
         const gameStatus = await getTetrisGameStatus(gameId);
-        console.log("홀드 전 게임 상태:", gameStatus.held_piece);
+        logger.log("홀드 전 게임 상태:", gameStatus.held_piece);
         
         // 홀드된 블록이 있으면 clear_hold=true 파라미터 추가
         if (gameStatus.held_piece) {
-          console.log("홀드 블록 사용 모드: clear_hold=true, skip_store=true");
+          logger.log("홀드 블록 사용 모드: clear_hold=true, skip_store=true");
           requestData.clear_hold = true;  // 홀드 블록을 비우기
           requestData.skip_store = true;  // 현재 블록을 홀드에 저장하지 않음
         } else {
-          console.log("일반 홀드 모드: 현재 블록을 홀드에 저장");
+          logger.log("일반 홀드 모드: 현재 블록을 홀드에 저장");
         }
       } catch (error) {
-        console.error("게임 상태 조회 실패:", error);
+        logger.error("게임 상태 조회 실패:", error);
       }
     }
     
@@ -69,10 +70,10 @@ export const makeMove = async (gameId: number, moveRequest: TetrisMoveRequest): 
       `/tetris/${gameId}/moves`, 
       requestData
     );
-    console.log('API 응답:', response.data);
+    logger.log('API 응답:', response.data);
     return response.data;
   } catch (error) {
-    console.error('API 오류:', error);
+    logger.error('API 오류:', error);
     if (axios.isAxiosError(error) && error.response) {
       throw error.response.data;
     }

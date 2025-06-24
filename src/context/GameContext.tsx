@@ -10,6 +10,7 @@ import {
   GameStatusResponse,
   GuessResponse,
 } from "../types/models";
+import logger from "../utils/logger";
 
 // 현재 게임 정보 타입
 interface CurrentGame {
@@ -81,7 +82,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       return gameData;
     } catch (err: unknown) {
-      console.error("게임 생성 오류:", err);
+      logger.error("게임 생성 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)
@@ -111,7 +112,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       return guessData;
     } catch (err: unknown) {
-      console.error("추측 오류:", err);
+      logger.error("추측 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)
@@ -149,7 +150,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       return statusData;
     } catch (err: unknown) {
-      console.error("게임 상태 조회 오류:", err);
+      logger.error("게임 상태 조회 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)
@@ -177,7 +178,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       const statusData = await apiGetGameStatus(currentGame.id);
       setGameStatus(statusData);
     } catch (err: unknown) {
-      console.error("게임 포기 오류:", err);
+      logger.error("게임 포기 오류:", err);
       setError(
         typeof err === "object" && err !== null && "detail" in err
           ? (err.detail as string)

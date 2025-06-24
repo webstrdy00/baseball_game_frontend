@@ -5,6 +5,7 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import ErrorMessage from "../components/common/ErrorMessage";
 import { getCurrentUser } from "../api/auth";
 import { User } from "../types/models";
+import logger from "../utils/logger";
 
 const KakaoAuthSuccessPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -18,12 +19,12 @@ const KakaoAuthSuccessPage: React.FC = () => {
       try {
         // 해시 프래그먼트에서 토큰 추출
         const hash = window.location.hash.substring(1);
-        console.log("해시 프래그먼트:", hash); // 디버깅용 로그
+        logger.log("해시 프래그먼트:", hash); // 디버깅용 로그
 
         const params = new URLSearchParams(hash);
         const accessToken = params.get("access_token");
 
-        console.log("추출된 토큰:", accessToken ? "토큰 있음" : "토큰 없음"); // 디버깅용 로그
+        logger.log("추출된 토큰:", accessToken ? "토큰 있음" : "토큰 없음"); // 디버깅용 로그
 
         if (!accessToken) {
           throw new Error("액세스 토큰이 없습니다.");
@@ -31,7 +32,7 @@ const KakaoAuthSuccessPage: React.FC = () => {
 
         // 토큰을 로컬 스토리지에 저장
         localStorage.setItem("access_token", accessToken);
-        console.log("토큰 저장됨");
+        logger.log("토큰 저장됨");
 
         // 약간의 지연을 추가하여 토큰이 적용될 시간을 줌
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -42,7 +43,7 @@ const KakaoAuthSuccessPage: React.FC = () => {
 
           // 로컬 스토리지에 사용자 정보 저장
           localStorage.setItem("user", JSON.stringify(userData));
-          console.log("사용자 정보 가져옴:", userData);
+          logger.log("사용자 정보 가져옴:", userData);
 
           // AuthContext 상태 업데이트
           setCurrentUser(userData);
@@ -53,7 +54,7 @@ const KakaoAuthSuccessPage: React.FC = () => {
           // 홈페이지로 리다이렉트
           navigate("/", { replace: true });
         } catch (apiError) {
-          console.error("API 호출 오류:", apiError);
+          logger.error("API 호출 오류:", apiError);
 
           // 백엔드에서 사용자 정보를 가져오지 못했을 때 hash 프래그먼트에서 사용자 정보 확인
           const userParam = params.get("user");
@@ -65,9 +66,9 @@ const KakaoAuthSuccessPage: React.FC = () => {
               ) as User;
               localStorage.setItem("user", JSON.stringify(userData));
               setCurrentUser(userData);
-              console.log("URL에서 사용자 정보 복원:", userData);
+              logger.log("URL에서 사용자 정보 복원:", userData);
             } catch (parseError) {
-              console.error("사용자 정보 파싱 오류:", parseError);
+              logger.error("사용자 정보 파싱 오류:", parseError);
             }
           }
 
@@ -76,7 +77,7 @@ const KakaoAuthSuccessPage: React.FC = () => {
           navigate("/", { replace: true });
         }
       } catch (err) {
-        console.error("카카오 로그인 처리 오류:", err);
+        logger.error("카카오 로그인 처리 오류:", err);
         setError("카카오 로그인 처리 중 오류가 발생했습니다.");
         setLoading(false);
       }

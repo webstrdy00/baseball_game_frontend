@@ -6,6 +6,7 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorMessage from '../common/ErrorMessage';
 import styles from './TetrisLeaderboard.module.css';
 import { useAuth } from '../../context/AuthContext';
+import logger from '../../utils/logger';
 
 const TetrisLeaderboard: React.FC = () => {
   const [globalScores, setGlobalScores] = useState<TetrisHighScoreItem[]>([]);
@@ -39,7 +40,7 @@ const TetrisLeaderboard: React.FC = () => {
               setActiveTab('user');
             }
           } catch (err: unknown) {
-            console.log('사용자 최고 점수 조회 실패:', err);
+            logger.log('사용자 최고 점수 조회 실패:', err);
             
             // 타입 가드를 사용하여 err 객체의 구조 확인
             if (
@@ -66,7 +67,7 @@ const TetrisLeaderboard: React.FC = () => {
           }
         }
       } catch (err: unknown) {
-        console.error("리더보드 조회 오류:", err);
+        logger.error("리더보드 조회 오류:", err);
         setError(
           typeof err === "object" && err !== null && "detail" in err
             ? (err.detail as string)
